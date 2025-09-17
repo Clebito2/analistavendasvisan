@@ -34,6 +34,10 @@ export function UploadForm({ formAction }: { formAction: (payload: FormData) => 
         <CardDescription>
           Carregue os arquivos CSV financeiros e de vendas de produtos para iniciar a análise.
         </CardDescription>
+        <CardDescription className="pt-2 text-xs text-muted-foreground">
+          <b>Onde obter os relatórios?</b><br />
+          Os relatórios mensais podem ser obtidos pelo Olist (Tiny), que é o ERP da Visan, ou diretamente pelos sites dos marketplaces. Para uma análise mais precisa, utilize o relatório completo do período que deseja analisar.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form action={formAction} className="space-y-6">
