@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useEffect, useState, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { generateAnalysis, State } from '@/app/actions';
 import { UploadForm } from './upload-form';
@@ -12,7 +11,7 @@ import { Button } from '@/components/ui/button';
 const initialState: State = { message: null, analysis: null };
 
 export function DashboardClient() {
-  const [state, formAction] = useFormState(generateAnalysis, initialState);
+  const [state, formAction] = useActionState(generateAnalysis, initialState);
   const [showResults, setShowResults] = useState(false);
   const { toast } = useToast();
 
