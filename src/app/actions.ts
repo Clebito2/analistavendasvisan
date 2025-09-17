@@ -36,7 +36,10 @@ export async function generateAnalysis(prevState: State | undefined, formData: F
     return { message: 'Análise completa.', analysis: result, isError: false };
   } catch (e) {
     console.error(e);
-    const errorMessage = e instanceof Error ? e.message : 'Ocorreu um erro desconhecido.';
+    let errorMessage = e instanceof Error ? e.message : 'Ocorreu um erro desconhecido.';
+    if (errorMessage.includes('503 Service Unavailable') || errorMessage.includes('model is overloaded')) {
+      errorMessage = 'O serviço de análise está sobrecarregado no momento. Por favor, tente novamente mais tarde.';
+    }
     return { message: `A análise falhou: ${errorMessage}`, isError: true };
   }
 }
