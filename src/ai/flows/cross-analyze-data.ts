@@ -79,6 +79,9 @@ Antes de gerar qualquer visualização, aplique as seguintes regras de negócio:
     *   **Análise**: Calcule o faturamento total ('Valor total') para cada 'Canal de Venda' (ex: Mercado Livre, Shopee, Loja Virtual).
     *   **Output (Gráfico)**: Gere os dados para o \`salesByChannelChartData\`. Cada item deve ter \`name\` (o canal de venda) e \`value\` (o faturamento total).
 
+*   **1.4. Análise de Marketplace por Loja**:
+    *   **Análise**: Identifique o faturamento total para cada marketplace específico mencionado na coluna 'Canal de Venda'. Agrupe os dados por loja, por exemplo, "Mercado Livre", "Shopee", etc. Inclua esta análise detalhada no relatório de \`profitabilityAnalysis\`.
+
 **Seção 2: Análise de Produtos**
 *   **2.1. Top 5 Produtos por Receita**:
     *   **Análise**: Identifique os 5 produtos com maior receita total. A receita por item de produto é a coluna 'Total'. Para a análise de texto \`productLiquidity\`, crie uma tabela em formato markdown contendo as colunas: "Produto", "Receita Total", "Quantidade Vendida", "Preço Médio".
