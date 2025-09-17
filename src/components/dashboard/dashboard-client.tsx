@@ -5,8 +5,9 @@ import { useToast } from '@/hooks/use-toast';
 import { generateAnalysis, State } from '@/app/actions';
 import { UploadForm } from './upload-form';
 import { AnalysisCard } from './analysis-card';
-import { DollarSign, LineChart, ShoppingCart, FileText } from 'lucide-react';
+import { DollarSign, LineChart, ShoppingCart, FileText, BarChart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { DataBarChart } from './charts/data-bar-chart';
 
 const initialState: State = { message: null, analysis: null };
 
@@ -36,9 +37,31 @@ export function DashboardClient() {
     <div className="space-y-8">
       {showResults && state.analysis ? (
         <div className="space-y-8 animate-in fade-in-50 duration-500">
-          <h2 className="text-3xl font-bold text-center font-headline tracking-tight">
-            Dashboard de Performance de Vendas
-          </h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+            <h2 className="text-3xl font-bold font-headline tracking-tight">
+              Dashboard de Performance de Vendas
+            </h2>
+            <Button onClick={handleNewAnalysis}>Analisar Novos Arquivos</Button>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <DataBarChart
+              title="Top 5 Produtos por Receita"
+              data={state.analysis.topProductsChartData}
+              dataKey="value"
+              indexKey="name"
+              className="lg:col-span-2"
+              valueFormatter={(value) => `R$${value.toLocaleString('pt-BR')}`}
+            />
+             <DataBarChart
+              title="Receita por Pagamento"
+              data={state.analysis.revenueByPaymentMethodChartData}
+              dataKey="value"
+              indexKey="name"
+              valueFormatter={(value) => `R$${value.toLocaleString('pt-BR')}`}
+            />
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             <AnalysisCard
               title="Análise de Rentabilidade"
@@ -50,21 +73,29 @@ export function DashboardClient() {
               icon={<LineChart className="h-6 w-6 text-primary" />}
               content={state.analysis.channelEfficiency}
             />
+          </div>
+          
+          <DataBarChart
+            title="Custo Médio por Canal (%)"
+            data={state.analysis.costByPaymentMethodChartData}
+            dataKey="value"
+            indexKey="name"
+            valueFormatter={(value) => `${value.toFixed(2)}%`}
+          />
+
+          <div className="grid gap-6 md:grid-cols-1">
             <AnalysisCard
               title="Liquidez do Produto"
               icon={<ShoppingCart className="h-6 w-6 text-primary" />}
               content={state.analysis.productLiquidity}
-              className="md:col-span-2"
+              className="md:col-span-1"
             />
             <AnalysisCard
               title="Resumo Executivo e Recomendações"
               icon={<FileText className="h-6 w-6 text-primary" />}
               content={state.analysis.executiveSummary}
-              className="md:col-span-2"
+              className="md:col-span-1"
             />
-          </div>
-          <div className="text-center">
-            <Button onClick={handleNewAnalysis}>Analisar Novos Arquivos</Button>
           </div>
         </div>
       ) : (
