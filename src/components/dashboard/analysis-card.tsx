@@ -23,13 +23,17 @@ function MarkdownTable({ content }: { content: string }) {
   const separatorLine = lines[1];
   
   // Basic check if it's a markdown table
-  if (!headerLine.includes('|') || !separatorLine.includes('|')) {
+  if (!headerLine?.includes('|') || !separatorLine?.includes('|')) {
     return null;
   }
 
   const headers = headerLine.split('|').map(h => h.trim()).filter(Boolean);
   const rows = lines.slice(2).map(line => line.split('|').map(cell => cell.trim()).filter(Boolean));
 
+  if (headers.length === 0 || rows.some(row => row.length !== headers.length)) {
+    return null; // Invalid table structure
+  }
+  
   return (
     <Table className="font-code text-xs">
       <TableHeader>
@@ -52,13 +56,19 @@ function MarkdownTable({ content }: { content: string }) {
   );
 }
 
+
 export function AnalysisCard({ title, icon, content, className }: AnalysisCardProps) {
-  const hasTable = content.includes('|') && content.includes('---');
+  // Regex to find a markdown table. It looks for a header with pipes, a separator line, and then the content.
+  const tableRegex = /(\s*\|.*\|[\s\S]*?)(?:\n\n|$)/;
+  const tableMatch = content.match(tableRegex);
   
-  // Extract non-table part and table part
-  const contentParts = content.split(/(\n\s*\|.*\|[\s\S]*)/);
-  const textContent = contentParts[0] || '';
-  const tableContent = hasTable ? (contentParts[1] || '') : '';
+  let textContent = content;
+  let tableContent: string | null = null;
+  
+  if (tableMatch) {
+    tableContent = tableMatch[0];
+    textContent = content.replace(tableContent, '').trim();
+  }
   
   const formattedText = textContent.replace(/\*\*(.*?)\*\*/g, '<strong class="font-medium text-foreground/90">$1</strong>');
 
@@ -75,7 +85,7 @@ export function AnalysisCard({ title, icon, content, className }: AnalysisCardPr
             dangerouslySetInnerHTML={{ __html: formattedText }}
           />
         )}
-        {hasTable && <MarkdownTable content={tableContent} />}
+        {tableContent && <MarkdownTable content={tableContent} />}
       </CardContent>
     </Card>
   );
