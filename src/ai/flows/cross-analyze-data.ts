@@ -32,6 +32,7 @@ const CrossAnalyzeDataOutputSchema = z.object({
   revenueByPaymentMethodChartData: ChartDataSchema.describe('Data for the revenue by payment method bar chart.'),
   topProductsChartData: ChartDataSchema.describe('Data for the top 5 products by revenue bar chart.'),
   costByPaymentMethodChartData: ChartDataSchema.describe('Data for the average cost percentage by payment method bar chart.'),
+  salesByChannelChartData: ChartDataSchema.describe('Data for the sales by channel pie chart.'),
 });
 export type CrossAnalyzeDataOutput = z.infer<typeof CrossAnalyzeDataOutputSchema>;
 
@@ -59,7 +60,7 @@ Antes de gerar qualquer visualização, aplique as seguintes regras de negócio:
 
 *   **Filtro de Relevância Financeira**: No arquivo financeiro, para todos os cálculos de faturamento, ticket médio e contagem de pedidos, considere apenas as transações onde a coluna 'Situação' seja igual a 'Emitida DANFE'.
 *   **Criação de Métrica de Custo**: No arquivo financeiro, crie uma nova coluna 'Custo Percentual da Taxa'. A fórmula é: (Taxas / 'Valor total') * 100. Se 'Valor total' for zero ou nulo, o custo deve ser zero.
-*   **Tratamento de Dados Categóricos**: No arquivo financeiro, na coluna 'Forma de recebimento', o valor 'Múltiplas' deve ser tratado como uma categoria distinta.
+*   **Tratamento de Dados Categóricos**: No arquivo financeiro, na coluna 'Forma de recebimento', o valor 'Múltiplas' deve ser tratado como uma categoria distinta. Na coluna 'Canal de Venda', agrupe valores como "MercadoLivre" e "Mercado Livre" sob o mesmo rótulo "Mercado Livre".
 *   **Conversão de Dados**: No arquivo financeiro, a coluna 'Prazo médio de recebimento' (ex: "30,0") deve ser convertida para um valor numérico (inteiro ou float) para possibilitar cálculos.
 
 **Análises e Geração de Dados para Gráficos:**
@@ -73,6 +74,10 @@ Antes de gerar qualquer visualização, aplique as seguintes regras de negócio:
     *   **Análise**: Calcule a média do 'Custo Percentual da Taxa' para cada 'Forma de recebimento'. Na análise de texto para \`channelEfficiency\`, inclua o ticket médio de cada canal.
     *   **Output (Texto)**: Gere a análise de texto para \`channelEfficiency\`, comparando os custos percentuais e o ticket médio.
     *   **Output (Gráfico)**: Gere os dados para o \`costByPaymentMethodChartData\`. Cada item deve ter \`name\` (a forma de pagamento) e \`value\` (o custo percentual médio).
+
+*   **1.3. Faturamento por Canal de Venda**:
+    *   **Análise**: Calcule o faturamento total ('Valor total') para cada 'Canal de Venda' (ex: Mercado Livre, Shopee, Loja Virtual).
+    *   **Output (Gráfico)**: Gere os dados para o \`salesByChannelChartData\`. Cada item deve ter \`name\` (o canal de venda) e \`value\` (o faturamento total).
 
 **Seção 2: Análise de Produtos**
 *   **2.1. Top 5 Produtos por Receita**:

@@ -5,9 +5,10 @@ import { useToast } from '@/hooks/use-toast';
 import { generateAnalysis, State } from '@/app/actions';
 import { UploadForm } from './upload-form';
 import { AnalysisCard } from './analysis-card';
-import { DollarSign, LineChart, ShoppingCart, FileText, BarChart } from 'lucide-react';
+import { DollarSign, LineChart, ShoppingCart, FileText, PieChart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataBarChart } from './charts/data-bar-chart';
+import { DataPieChart } from './charts/data-pie-chart';
 
 const initialState: State = { message: null, analysis: null };
 
@@ -53,9 +54,9 @@ export function DashboardClient() {
               className="lg:col-span-2"
               valueFormatter={(value) => `R$${value.toLocaleString('pt-BR')}`}
             />
-             <DataBarChart
-              title="Receita por Pagamento"
-              data={state.analysis.revenueByPaymentMethodChartData}
+            <DataPieChart
+              title="Faturamento por Canal de Venda"
+              data={state.analysis.salesByChannelChartData}
               dataKey="value"
               indexKey="name"
               valueFormatter={(value) => `R$${value.toLocaleString('pt-BR')}`}
@@ -75,13 +76,22 @@ export function DashboardClient() {
             />
           </div>
           
-          <DataBarChart
-            title="Custo Médio por Canal (%)"
-            data={state.analysis.costByPaymentMethodChartData}
-            dataKey="value"
-            indexKey="name"
-            valueFormatter={(value) => `${value.toFixed(2)}%`}
-          />
+          <div className="grid gap-6 md:grid-cols-2">
+            <DataBarChart
+              title="Receita por Pagamento"
+              data={state.analysis.revenueByPaymentMethodChartData}
+              dataKey="value"
+              indexKey="name"
+              valueFormatter={(value) => `R$${value.toLocaleString('pt-BR')}`}
+            />
+            <DataBarChart
+              title="Custo Médio por Canal (%)"
+              data={state.analysis.costByPaymentMethodChartData}
+              dataKey="value"
+              indexKey="name"
+              valueFormatter={(value) => `${value.toFixed(2)}%`}
+            />
+          </div>
 
           <div className="grid gap-6 md:grid-cols-1">
             <AnalysisCard
