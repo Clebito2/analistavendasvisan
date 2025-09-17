@@ -7,7 +7,7 @@ export function Header() {
         <div className="mr-4 flex items-center">
           <BriefcaseBusiness className="h-6 w-6 text-primary" />
           <span className="ml-2 text-lg font-bold font-headline">
-            EcomInsights Navigator
+            Analista de relatórios de vendas - Visan
           </span>
         </div>
       </div>

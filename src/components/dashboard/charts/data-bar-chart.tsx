@@ -19,6 +19,22 @@ interface DataBarChartProps {
   valueFormatter?: (value: number) => string;
 }
 
+const CustomTooltip = ({ active, payload, label, formatter }: any) => {
+  if (active && payload && payload.length) {
+    const data = payload[0];
+    const formattedValue = formatter ? formatter(data.value) : data.value;
+    return (
+      <div className="p-2 bg-background border rounded-md shadow-lg">
+        <p className="font-bold">{label}</p>
+        <p><span className="text-primary font-semibold">Valor:</span> {formattedValue}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+
 export function DataBarChart({
   title,
   data,
@@ -45,10 +61,11 @@ export function DataBarChart({
               axisLine={false}
               width={120}
               interval={0}
+              tick={{ transform: 'translate(0, 0)' }}
             />
             <Tooltip
               cursor={{ fill: 'hsl(var(--accent))', opacity: 0.3 }}
-              formatter={valueFormatter}
+              content={<CustomTooltip formatter={valueFormatter} />}
               contentStyle={{
                 backgroundColor: 'hsl(var(--background))',
                 borderColor: 'hsl(var(--border))',

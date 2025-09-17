@@ -65,18 +65,18 @@ Antes de gerar qualquer visualização, aplique as seguintes regras de negócio:
 **Análises e Geração de Dados para Gráficos:**
 
 **Seção 1: Análise Financeira e de Canais**
-*   **1.1. Faturamento por Forma de Pagamento**:
-    *   **Análise**: Calcule o faturamento total ('Valor total') para cada 'Forma de recebimento', aplicando o filtro de 'Emitida DANFE'.
+*   **1.1. Faturamento e Ticket Médio por Forma de Pagamento**:
+    *   **Análise**: Calcule o faturamento total ('Valor total'), o número de pedidos, e o ticket médio (faturamento / pedidos) para cada 'Forma de recebimento', aplicando o filtro de 'Emitida DANFE'.
     *   **Output (Gráfico)**: Gere os dados para o \`revenueByPaymentMethodChartData\`. Cada item deve ter \`name\` (a forma de pagamento) e \`value\` (o faturamento total).
 
 *   **1.2. Eficiência de Custo por Canal**:
-    *   **Análise**: Calcule a média do 'Custo Percentual da Taxa' para cada 'Forma de recebimento'.
-    *   **Output (Texto)**: Gere a análise de texto para \`channelEfficiency\`, comparando os custos percentuais.
+    *   **Análise**: Calcule a média do 'Custo Percentual da Taxa' para cada 'Forma de recebimento'. Na análise de texto para \`channelEfficiency\`, inclua o ticket médio de cada canal.
+    *   **Output (Texto)**: Gere a análise de texto para \`channelEfficiency\`, comparando os custos percentuais e o ticket médio.
     *   **Output (Gráfico)**: Gere os dados para o \`costByPaymentMethodChartData\`. Cada item deve ter \`name\` (a forma de pagamento) e \`value\` (o custo percentual médio).
 
 **Seção 2: Análise de Produtos**
 *   **2.1. Top 5 Produtos por Receita**:
-    *   **Análise**: Identifique os 5 produtos com maior receita total. A receita por item de produto é a coluna 'Total'.
+    *   **Análise**: Identifique os 5 produtos com maior receita total. A receita por item de produto é a coluna 'Total'. Para a análise de texto \`productLiquidity\`, crie uma tabela em formato markdown contendo as colunas: "Produto", "Receita Total", "Quantidade Vendida", "Preço Médio".
     *   **Output (Gráfico)**: Gere os dados para o \`topProductsChartData\`. Cada item deve ter \`name\` (o nome do produto, coluna 'Produto') e \`value\` (a receita total, coluna 'Total').
 
 **Seção 3: Análise Cruzada de Rentabilidade (Insights Combinados)**
@@ -86,7 +86,7 @@ Antes de gerar qualquer visualização, aplique as seguintes regras de negócio:
 
 *   **3.2. Análise de Liquidez dos Produtos "Estrela"**:
     *   **Análise**: Para os "Top 5 Produtos por Receita" identificados, investigue no arquivo financeiro de Agosto qual foi o 'Prazo médio de recebimento' associado às vendas desses produtos.
-    *   **Output (Texto)**: Gere a análise para \`productLiquidity\` em formato de tabela simples, mostrando cada um dos 5 produtos e seu prazo médio de recebimento ponderado em Agosto. Descubra se seus produtos mais vendidos estão "prendendo" o fluxo de caixa (prazos longos) ou se geram liquidez rápida.
+    *   **Output (Texto)**: Gere a análise para \`productLiquidity\` incluindo a tabela markdown criada na seção 2.1 e complemente com uma análise sobre o 'Prazo médio de recebimento' ponderado para esses produtos. Descubra se seus produtos mais vendidos estão "prendendo" o fluxo de caixa (prazos longos) ou se geram liquidez rápida.
 
 **Seção 4: Resumo Executivo e Recomendações Estratégicas**
 Com base em TODAS as análises acima, forneça para o campo \`executiveSummary\`:
